@@ -149,67 +149,51 @@ probabilities = {
 # Print probabilities with explanations
 print("\nProbabilities:")
 
-sections = {
-    "prev_UP": [],
-    "prev_DOWN": [],
-    "next_day_UP": [],
-    "next_day_DOWN": []
+descriptions = {
+    'prev_UP_above_HIGH': "The probability of closing above the high of the previous bullish candle is {:.2f}%",
+    'prev_UP_below_LOW': "The probability of closing below the low of the previous bullish candle is {:.2f}%",
+    'prev_UP_wicked_BOTH': "The probability of wicking both above and below the previous bullish candle is {:.2f}%",
+    'prev_UP_neither': "The probability of closing neither above nor below the previous bullish candle is {:.2f}%",
+    'prev_DOWN_above_HIGH': "The probability of closing above the high of the previous bearish candle is {:.2f}%",
+    'prev_DOWN_below_LOW': "The probability of closing below the low of the previous bearish candle is {:.2f}%",
+    'prev_DOWN_wicked_BOTH': "The probability of wicking both above and below the previous bearish candle is {:.2f}%",
+    'prev_DOWN_neither': "The probability of closing neither above nor below the previous bearish candle is {:.2f}%",
+    'next_day_UP_after_UP': "The probability of the next day closing higher after a bullish candle is {:.2f}%",
+    'next_day_DOWN_after_UP': "The probability of the next day closing higher after a bearish candle is {:.2f}%",
+    'next_day_UP_after_DOWN': "The probability of the next day closing higher after a bearish candle is {:.2f}%",
+    'next_day_DOWN_after_DOWN': "The probability of the next day closing lower after a bearish candle is {:.2f}%",
+    'prev_UP_above_body': "The probability of closing above the body of the previous bullish candle is {:.2f}%",
+    'prev_UP_below_body': "The probability of closing below the body of the previous bullish candle is {:.2f}%",
+    'prev_DOWN_above_body': "The probability of closing above the body of the previous bearish candle is {:.2f}%",
+    'prev_DOWN_below_body': "The probability of closing below the body of the previous bearish candle is {:.2f}%",
+    'prev_UP_inside_body': "The probability of closing inside the body of the previous bullish candle is {:.2f}%",
+    'prev_DOWN_inside_body': "The probability of closing inside the body of the previous bearish candle is {:.2f}%",
+    'next_day_UP_after_body_up': "The probability of the next day closing higher after closing above the body of a bullish candle is {:.2f}%",
+    'next_day_DOWN_after_body_up': "The probability of the next day closing lower after closing above the body of a bullish candle is {:.2f}%",
+    'next_day_UP_after_body_down': "The probability of the next day closing higher after closing below the body of a bearish candle is {:.2f}%",
+    'next_day_DOWN_after_body_down': "The probability of the next day closing lower after closing below the body of a bearish candle is {:.2f}%"
 }
 
-for pattern, probability in probabilities.items():
-    if "prev_UP" in pattern:
-        if pattern == 'prev_UP_above_HIGH':
-            sections["prev_UP"].append(f"The probability of closing above the high of the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_below_LOW':
-            sections["prev_UP"].append(f"The probability of closing below the low of the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_wicked_BOTH':
-            sections["prev_UP"].append(f"The probability of wicking both above and below the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_neither':
-            sections["prev_UP"].append(f"The probability of closing neither above nor below the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_above_body':
-            sections["prev_UP"].append(f"The probability of closing above the body of the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_below_body':
-            sections["prev_UP"].append(f"The probability of closing below the body of the previous bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_UP_inside_body':
-            sections["prev_UP"].append(f"The probability of closing inside the body of the previous bullish candle is {probability * 100:.2f}%")
-    elif "prev_DOWN" in pattern:
-        if pattern == 'prev_DOWN_above_HIGH':
-            sections["prev_DOWN"].append(f"The probability of closing above the high of the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_below_LOW':
-            sections["prev_DOWN"].append(f"The probability of closing below the low of the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_wicked_BOTH':
-            sections["prev_DOWN"].append(f"The probability of wicking both above and below the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_neither':
-            sections["prev_DOWN"].append(f"The probability of closing neither above nor below the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_above_body':
-            sections["prev_DOWN"].append(f"The probability of closing above the body of the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_below_body':
-            sections["prev_DOWN"].append(f"The probability of closing below the body of the previous bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'prev_DOWN_inside_body':
-            sections["prev_DOWN"].append(f"The probability of closing inside the body of the previous bearish candle is {probability * 100:.2f}%")
-    elif "next_day_UP" in pattern:
-        if pattern == 'next_day_UP_after_UP':
-            sections["next_day_UP"].append(f"The probability of the next day closing higher after a bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_UP_after_DOWN':
-            sections["next_day_UP"].append(f"The probability of the next day closing higher after a bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_UP_after_body_up':
-            sections["next_day_UP"].append(f"The probability of the next day closing higher after closing above the body of a bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_UP_after_body_down':
-            sections["next_day_UP"].append(f"The probability of the next day closing higher after closing below the body of a bearish candle is {probability * 100:.2f}%")
-    elif "next_day_DOWN" in pattern:
-        if pattern == 'next_day_DOWN_after_UP':
-            sections["next_day_DOWN"].append(f"The probability of the next day closing lower after a bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_DOWN_after_DOWN':
-            sections["next_day_DOWN"].append(f"The probability of the next day closing lower after a bearish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_DOWN_after_body_up':
-            sections["next_day_DOWN"].append(f"The probability of the next day closing lower after closing above the body of a bullish candle is {probability * 100:.2f}%")
-        elif pattern == 'next_day_DOWN_after_body_down':
-            sections["next_day_DOWN"].append(f"The probability of the next day closing lower after closing below the body of a bearish candle is {probability * 100:.2f}%")
+sections = []
 
-for section, statements in sections.items():
-    for statement in statements:
+current_section = []
+current_total = 0
+
+for pattern, probability in probabilities.items():
+    percentage = probability * 100
+
+    if current_total + percentage > 100:
+        sections.append(current_section)
+        current_section = []
+        current_total = 0
+
+    current_section.append(descriptions.get(pattern, "Unknown pattern").format(probability * 100))
+
+    current_total += percentage
+
+sections.append(current_section)
+
+for section in sections:
+    for statement in section:
         print(statement)
-    if section in ["prev_UP", "prev_DOWN"]:
-        print("\n=============================")
-    elif section in ["next_day_UP", "next_day_DOWN"]:
-        print("\n=============================")
+    print()
