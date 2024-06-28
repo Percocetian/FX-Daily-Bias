@@ -1,7 +1,8 @@
 import pandas as pd
 
 # Load the data from the CSV file
-df = pd.read_csv('GBP_JPY Historical Data.csv')
+pair = ('GBP_JPY Historical Data.csv')
+df = pd.read_csv(pair)
 
 # Convert 'Date' to datetime and sort by date
 df['Date'] = pd.to_datetime(df['Date'], format='%m/%d/%Y')
@@ -146,8 +147,41 @@ probabilities = {
     'next_day_DOWN_after_body_down': patterns['next_day_DOWN_after_body_down'] / total_down if total_down > 0 else 0
 }
 
-# Print probabilities with explanations
-print("\nProbabilities:")
+# Normalizing probabilities within each section to ensure no section exceeds 100%
+sections = {
+    "Closing Positions of Previous Candle": [
+        'prev_UP_above_HIGH',
+        'prev_UP_below_LOW',
+        'prev_UP_wicked_BOTH',
+        'prev_UP_neither',
+        'prev_DOWN_above_HIGH',
+        'prev_DOWN_below_LOW',
+        'prev_DOWN_wicked_BOTH',
+        'prev_DOWN_neither'
+    ],
+    "Next Day Closing Behavior": [
+        'next_day_UP_after_UP',
+        'next_day_DOWN_after_UP',
+        'next_day_UP_after_DOWN',
+        'next_day_DOWN_after_DOWN'
+    ],
+    "Closing Relative to Previous Candle Body": [
+        'prev_UP_above_body',
+        'prev_UP_below_body',
+        'prev_DOWN_above_body',
+        'prev_DOWN_below_body'
+    ],
+    "Closing Inside Previous Candle Body": [
+        'prev_UP_inside_body',
+        'prev_DOWN_inside_body'
+    ],
+    "Next Day Behavior Relative to Previous Candle Body": [
+        'next_day_UP_after_body_up',
+        'next_day_DOWN_after_body_up',
+        'next_day_UP_after_body_down',
+        'next_day_DOWN_after_body_down'
+    ]
+}
 
 descriptions = {
     'prev_UP_above_HIGH': "The probability of closing above the high of the previous bullish candle is {:.2f}%",
@@ -159,7 +193,7 @@ descriptions = {
     'prev_DOWN_wicked_BOTH': "The probability of wicking both above and below the previous bearish candle is {:.2f}%",
     'prev_DOWN_neither': "The probability of closing neither above nor below the previous bearish candle is {:.2f}%",
     'next_day_UP_after_UP': "The probability of the next day closing higher after a bullish candle is {:.2f}%",
-    'next_day_DOWN_after_UP': "The probability of the next day closing higher after a bearish candle is {:.2f}%",
+    'next_day_DOWN_after_UP': "The probability of the next day closing lower after a bullish candle is {:.2f}%",
     'next_day_UP_after_DOWN': "The probability of the next day closing higher after a bearish candle is {:.2f}%",
     'next_day_DOWN_after_DOWN': "The probability of the next day closing lower after a bearish candle is {:.2f}%",
     'prev_UP_above_body': "The probability of closing above the body of the previous bullish candle is {:.2f}%",
@@ -174,26 +208,15 @@ descriptions = {
     'next_day_DOWN_after_body_down': "The probability of the next day closing lower after closing below the body of a bearish candle is {:.2f}%"
 }
 
-sections = []
+print("\nProbabilities:")
+print(pair)
 
-current_section = []
-current_total = 0
-
-for pattern, probability in probabilities.items():
-    percentage = probability * 100
-
-    if current_total + percentage > 100:
-        sections.append(current_section)
-        current_section = []
-        current_total = 0
-
-    current_section.append(descriptions.get(pattern, "Unknown pattern").format(probability * 100))
-
-    current_total += percentage
-
-sections.append(current_section)
-
-for section in sections:
-    for statement in section:
-        print(statement)
+for section_name, pattern_list in sections.items():
+    section_sum = sum(probabilities[pattern] for pattern in pattern_list)
+    print(f"\n{section_name}:")
+    for pattern in pattern_list:
+        probability = probabilities.get(pattern, 0)
+        normalized_prob = (probability / section_sum) * 100 if section_sum > 0 else 0
+        count = patterns.get(pattern, 0)
+        print(f"'{pattern}': {count} - {descriptions.get(pattern, 'Unknown pattern').format(normalized_prob)}")
     print()
