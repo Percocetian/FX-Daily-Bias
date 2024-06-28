@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the data from the CSV file
-pair = ('GBP_JPY Historical Data.csv')
+pair = ('EURUSD_historical_data.csv')
 df = pd.read_csv(pair)
 
 # Convert 'Date' to datetime and sort by date
@@ -159,9 +159,11 @@ sections = {
         'prev_DOWN_wicked_BOTH',
         'prev_DOWN_neither'
     ],
-    "Next Day Closing Behavior": [
+    "Next Day Closing Behavior - After Bullish Candle": [
         'next_day_UP_after_UP',
-        'next_day_DOWN_after_UP',
+        'next_day_DOWN_after_UP'
+    ],
+    "Next Day Closing Behavior - After Bearish Candle": [
         'next_day_UP_after_DOWN',
         'next_day_DOWN_after_DOWN'
     ],
@@ -175,9 +177,11 @@ sections = {
         'prev_UP_inside_body',
         'prev_DOWN_inside_body'
     ],
-    "Next Day Behavior Relative to Previous Candle Body": [
+    "Next Day Behavior Relative to Previous Candle Body - After Bullish Candle": [
         'next_day_UP_after_body_up',
-        'next_day_DOWN_after_body_up',
+        'next_day_DOWN_after_body_up'
+    ],
+    "Next Day Behavior Relative to Previous Candle Body - After Bearish Candle": [
         'next_day_UP_after_body_down',
         'next_day_DOWN_after_body_down'
     ]
@@ -209,7 +213,6 @@ descriptions = {
 }
 
 print("\nProbabilities:")
-print(pair)
 
 for section_name, pattern_list in sections.items():
     section_sum = sum(probabilities[pattern] for pattern in pattern_list)
